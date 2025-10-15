@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CyL 2023–2025 · JS Resuelto y Didáctico</title>
+  <meta name="description" content="Ejercicios oficiales CyL 2023, 2024 y 2025 resueltos y explicados paso a paso (JavaScript). Incluye teoría, demo, código visible y práctica guiada para el alumno."/>
+  <style>
+    /* ===============================
+       Estilos base (look limpio y bonito)
+       =============================== */
+    :root{
+      --bg:#0f172a;         /* fondo oscuro azulado */
+      --card:#111827;       /* tarjetas */
+      --ink:#e5e7eb;        /* texto principal */
+      --muted:#9ca3af;      /* texto secundario */
+      --accent:#22c55e;     /* verde */
+      --accent2:#60a5fa;    /* azul */
+      --accent3:#f97316;    /* naranja */
+      --border:#1f2937;
+      --codebg:#0b1220;
+      --good:#16a34a;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+    }
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      background:linear-gradient(180deg,#0b1020, var(--bg));
+      color:var(--ink);
+    }
+    header{ position:sticky; top:0; z-index:50; background:rgba(15,23,42,.75); backdrop-filter:blur(8px); border-bottom:1px solid var(--border) }
+    .wrap{ max-width:1200px; margin:0 auto; padding:18px }
+    h1{ margin:.3em 0 }
+    .muted{ color:var(--muted) }
+    .grid{ display:grid; gap:16px }
+    .hero{
+      display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+    }
+    .badge{ display:inline-block; padding:4px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); font-size:.9rem }
+    .card{
+      background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    section.card{ margin:18px 0 }
+    .kpi{ display:flex; gap:12px; flex-wrap:wrap }
+    .kpi > div{
+      background:rgba(255,255,255,.03); border:1px dashed var(--border); padding:10px 12px; border-radius:12px; min-width:180px
+    }
+    .acciones{ display:flex; gap:10px; flex-wrap:wrap; margin:8px 0 }
+    button{
+      padding:10px 14px; border-radius:10px; border:1px solid var(--border); background:#0b1220; color:#e5e7eb; cursor:pointer
+    }
+    button:hover{ transform:translateY(-1px); box-shadow:0 10px 20px rgba(0,0,0,.3) }
+    button.secondary{ background:#111827 }
+    .resultado{
+      margin-top:10px; padding:10px; background:#0b1220; border:1px dashed #1f2937; border-radius:10px; min-height:22px; color:#dbeafe
+    }
+    code, pre{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace }
+    pre{
+      background:var(--codebg); color:#c7d2fe; padding:14px; border-radius:12px; overflow:auto; border:1px solid #0e1726; line-height:1.45
+    }
+    .tip{ background:rgba(34,197,94,.08); border:1px solid rgba(34,197,94,.35); padding:10px; border-radius:10px; margin-top:10px; color:#d1fae5 }
+    .warn{ background:rgba(249,115,22,.08); border-color:rgba(249,115,22,.4) }
+    .two-col{ display:grid; grid-template-columns: 1fr; gap:16px }
+    @media (min-width: 980px){
+      .two-col{ grid-template-columns: 1fr 1fr }
+    }
+    hr.sep{ border:0; height:1px; background:linear-gradient(90deg, transparent, #334155, transparent); margin:24px 0 }
+    /* Colores por sección */
+    .s2023 h2 strong{ color:var(--accent2) }
+    .s2024 h2 strong{ color:#fbbf24 }
+    .s2025 h2 strong{ color:var(--accent) }
+    .pill{ display:inline-block; padding:2px 8px; border-radius:999px; font-size:.8rem; border:1px solid var(--border); color:var(--muted) }
+    .ok{ color:var(--good) } .bad{ color:var(--bad) } .warn-t{ color:var(--warn) }
+    /* Tablas demo */
+    table{ width:100%; border-collapse:collapse; margin-top:8px; background:#0b1220; border:1px solid #1f2937 }
+    th, td{ padding:10px; border-bottom:1px solid #1f2937; text-align:left }
+    th{ position:relative; cursor:pointer; user-select:none; color:#93c5fd }
+    th[data-type]:after{ content:"↕"; position:absolute; right:8px; opacity:.35 }
+    td{ color:#e5e7eb }
+    .code-title{ font-weight:600; margin:8px 0 4px; color:#9ae6b4 }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hero">
+    <div>
+      <span class="badge">Preparación Opos · CyL</span>
+      <h1>JavaScript 2023–2025 · Resuelto + Práctica guiada</h1>
+      <p class="muted">Cada ejercicio incluye: <strong>explicación paso a paso</strong>, <strong>demos en vivo</strong>, <strong>código visible</strong> y una zona <strong>“Ahora hazlo tú”</strong> (con TODOs).</p>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- =======================================================
+       2023 · ORDENACIÓN DE TABLAS POR CABECERA
+       ======================================================= -->
+  <section class="card s2023" id="y2023">
+    <h2>Ejercicio <strong>2023</strong> · Ordenar tablas HTML al hacer clic en la cabecera</h2>
+    <p class="muted">Objetivo: Al pulsar en un <code>&lt;th data-type="string|number"&gt;</code>, ordenar ascendente todas las filas de la tabla por esa columna.</p>
+    <div class="two-col">
+      <div>
+        <h3>🧠 Explicación</h3>
+        <ul>
+          <li><span class="pill">DOM + Eventos</span> Añadimos un <code>click</code> a cada <code>&lt;th&gt;</code> que tenga <code>data-type</code>.</li>
+          <li><span class="pill">dataset</span> Leemos <code>th.dataset.type</code> para saber si comparamos como <em>string</em> o <em>number</em>.</li>
+          <li><span class="pill">Array.sort</span> Obtenemos las filas <code>&lt;tr&gt;</code>, las convertimos en <em>array</em>, y las reordenamos.</li>
+          <li><span class="pill">Reflow</span> Volvemos a añadir las filas ordenadas al <code>&lt;tbody&gt;</code>.</li>
+        </ul>
+        <div class="tip">💡 Consejo: usa <code>localeCompare</code> para strings y <code>Number()</code> para números.</div>
+      </div>
+      <div>
+        <h3>🔍 Demo rápida</h3>
+        <table>
+          <thead>
+            <tr>
+              <th data-type="number">Edad</th>
+              <th data-type="string">Nombre</th>
+            </tr>
+          </thead>
+          <tbody id="t2023a">
+            <tr><td>123</td><td>Juan</td></tr>
+            <tr><td>2</td><td>Pedro</td></tr>
+            <tr><td>37</td><td>Ana</td></tr>
+          </tbody>
+        </table>
+        <table>
+          <thead>
+            <tr>
+              <th data-type="string">Ciudad</th>
+              <th data-type="number">Habitantes</th>
+            </tr>
+          </thead>
+          <tbody id="t2023b">
+            <tr><td>Ávila</td><td>100000</td></tr>
+            <tr><td>León</td><td>120000</td></tr>
+            <tr><td>Burgos</td><td>170000</td></tr>
+          </tbody>
+        </table>
+        <div id="res2023" class="resultado">Pulsa en un encabezado para ordenar.</div>
+      </div>
+    </div>
+
+    <div class="code-title">Código JS (explicado con Better Comments)</div>
+    <pre><code>// ! DOMContentLoaded: esperamos a que el HTML esté listo antes de registrar eventos
+document.addEventListener("DOMContentLoaded", () =&gt; {
+  // * 1) Seleccionar todos los th de todas las tablas que tengan data-type
+  const ths = document.querySelectorAll("table thead th[data-type]");
+
+  // * 2) Añadir evento click a cada th
+  ths.forEach(th =&gt; {
+    th.addEventListener("click", () =&gt; {
+      // ? Averiguar índice de la columna sobre la que se hizo clic
+      const thRow = th.parentElement;                  // &lt;tr&gt; que contiene el th
+      const thead = thRow.parentElement;               // &lt;thead&gt;
+      const table = thead.parentElement;               // &lt;table&gt;
+      const colIndex = Array.from(thRow.children).indexOf(th);
+      const type = th.dataset.type;                    // "number" | "string"
+
+      // ? Obtenemos el tbody y las filas
+      const tbody = table.querySelector("tbody");
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+
+      // * 3) Ordenar según el tipo de dato
+      rows.sort((r1, r2) =&gt; {
+        const c1 = r1.children[colIndex].innerText.trim();
+        const c2 = r2.children[colIndex].innerText.trim();
+        if(type === "number"){
+          return Number(c1) - Number(c2);
+        }else{
+          return c1.localeCompare(c2, "es", { sensitivity:"base" });
+        }
+      });
+
+      // * 4) Reinyectar las filas en el mismo tbody (quedan ordenadas)
+      rows.forEach(tr =&gt; tbody.appendChild(tr));
+
+      // * 5) Feedback visual / texto
+      document.getElementById("res2023").innerText = 
+        `Tabla ordenada por la columna "${th.innerText}" (${type}).`;
+    });
+  });
+});</code></pre>
+
+    <hr class="sep"/>
+
+    <h3>🧪 Ahora hazlo tú (práctica guiada)</h3>
+    <ul>
+      <li>// TODO Alumno: Crea una tercera tabla con columnas “Producto” (string) y “Precio” (number) y habilita la ordenación.</li>
+      <li>// TODO Alumno: Cambia el comparador para que al 2º clic invierta el orden (pista: guarda un estado asc/desc en el th).</li>
+    </ul>
+  </section>
+
+  <!-- =======================================================
+       2024 · RESTCOUNTRIES + PROMESAS + SELECT EN HEADER
+       ======================================================= -->
+  <section class="card s2024" id="y2024">
+    <h2>Ejercicio <strong>2024</strong> · API RESTCountries con Promesas + selector de país</h2>
+    <p class="muted">Objetivo: Función flecha <code>infoPais(code)</code> que haga <em>fetch</em> a <code>https://restcountries.com/v3.1/alpha/{code}</code> y pinte nombre, nombre en francés, bandera y símbolo de moneda. Crear además un <code>&lt;select&gt;</code> en el &lt;header&gt; que invoque esa función.</p>
+
+    <div class="two-col">
+      <div>
+        <h3>🧠 Explicación</h3>
+        <ul>
+          <li><span class="pill">Promesas</span> Usamos <code>fetch(...).then(...).catch(...)</code>.</li>
+          <li><span class="pill">Datos anidados</span> <code>name.common</code>, <code>translations.fra.common</code>, <code>flag</code>, <code>currencies.EUR.symbol</code> (depende del país).</li>
+          <li><span class="pill">No bloquear</span> Mientras se ejecuta la petición, el resto de la página sigue funcionando.</li>
+        </ul>
+        <div class="tip warn">⚠️ Si algo falla (red, CORS, código inválido), capturamos el error y lo sacamos por consola de forma clara.</div>
+      </div>
+      <div>
+        <h3>🔍 Demo</h3>
+        <div class="acciones">
+          <label for="selPais"><strong>Elige país:</strong></label>
+          <select id="selPais">
+            <option value="">—</option>
+            <option value="es">España</option>
+            <option value="fr">Francia</option>
+            <option value="de">Alemania</option>
+            <option value="it">Italia</option>
+            <option value="pt">Portugal</option>
+          </select>
+          <button onclick="triggerInfoPais()">Cargar datos</button>
+        </div>
+
+        <div id="vistaPais" class="resultado">
+          <div><strong>Nombre:</strong> <span id="pNombre">-</span></div>
+          <div><strong>Nombre (fr):</strong> <span id="pNombreFr">-</span></div>
+          <div><strong>Bandera:</strong> <span id="pFlag">-</span></div>
+          <div><strong>Moneda:</strong> <span id="pMoneda">-</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="code-title">Código JS (explicado con Better Comments)</div>
+    <pre><code>// ! Función flecha que consulta la API RESTCountries por código ISO alpha-2/3
+const infoPais = (code) =&gt; {
+  // * Normalizamos el código a minúsculas
+  const c = String(code || "").trim().toLowerCase();
+  if(!c){ console.warn("No se proporcionó código de país"); return; }
+
+  // * Petición HTTP GET
+  fetch(`https://restcountries.com/v3.1/alpha/${c}`)
+    .then(resp =&gt; {
+      if(!resp.ok) throw new Error("HTTP "+resp.status);
+      return resp.json();
+    })
+    .then(data =&gt; {
+      // ? La API devuelve un array de países (normalmente 1)
+      const pais = Array.isArray(data) ? data[0] : data;
+      if(!pais) throw new Error("Respuesta vacía");
+
+      // * Extraemos valores con encadenamiento seguro
+      const nombre = pais?.name?.common ?? "(sin nombre)";
+      const nombreFr = pais?.translations?.fra?.common ?? "(sin fr)";
+      const flag = pais?.flag ?? "🏳";
+      // currencies es un objeto con claves dinámicas (EUR, USD...)
+      const symbol = (() =&gt; {
+        const cur = pais?.currencies || {};
+        const firstKey = Object.keys(cur)[0];
+        return firstKey ? (cur[firstKey].symbol ?? "(s/ símbolo)") : "(s/ moneda)";
+      })();
+
+      // * Pintamos en el DOM
+      document.getElementById("pNombre").innerText = nombre;
+      document.getElementById("pNombreFr").innerText = nombreFr;
+      document.getElementById("pFlag").innerText = flag;
+      document.getElementById("pMoneda").innerText = symbol;
+    })
+    .catch(err =&gt; {
+      console.error("Error al obtener país:", err);
+    });
+};
+
+// * Helper para botón/selector
+function triggerInfoPais(){
+  const code = document.getElementById("selPais").value;
+  infoPais(code);
+}</code></pre>
+
+    <hr class="sep"/>
+
+    <h3>🧪 Ahora hazlo tú (práctica guiada)</h3>
+    <ul>
+      <li>// TODO Alumno: Añade más opciones al &lt;select&gt; (ej: “us”, “gb”, “ar”).</li>
+      <li>// TODO Alumno: Muestra también el <strong>idioma oficial</strong> principal (propiedad <code>languages</code> del país).</li>
+      <li>// TODO Alumno: Si <code>stock</code> (😅 no aplica aquí) &lt;= 0 —broma—: Implementa una <strong>tarjeta bonita</strong> con el escudo (propiedad <code>coatOfArms.svg</code>) si existe.</li>
+    </ul>
+  </section>
+
+  <!-- =======================================================
+       2025 · PROMISE.ANY + RENDER + HOFs (map/filter/reduce)
+       ======================================================= -->
+  <section class="card s2025" id="y2025">
+    <h2>Ejercicio <strong>2025</strong> · Promise.any() + Tabla de productos + Estadísticas (HOF)</h2>
+    <p class="muted">Objetivo: Descargar productos desde 3 endpoints en paralelo (quedarse con el primero que responda), renderizar la tabla y calcular estadísticas usando <code>map / filter / reduce</code>.</p>
+
+    <div class="two-col">
+      <div>
+        <h3>🧠 Explicación</h3>
+        <ol>
+          <li><span class="pill">Descarga</span> Hacemos <code>Promise.any([fetch1, fetch2, fetch3])</code> para quedarnos con la primera respuesta válida.</li>
+          <li><span class="pill">Render</span> Cada fila incluye <code>data-id</code> en la celda del nombre.</li>
+          <li><span class="pill">Reglas</span> Si <code>stock &lt;= 0</code>, en la tabla se muestra <strong>0</strong>.</li>
+          <li><span class="pill">HOFs</span> <code>filter</code> productos con stock &gt; 0 · <code>map</code> para extraer precios · <code>reduce</code> para sumar stock, media y valor total.</li>
+        </ol>
+        <div class="tip">💡 Incluimos un <em>modo simulación</em> para que puedas probar aunque no existan los endpoints reales.</div>
+      </div>
+      <div>
+        <h3>🔍 Demo</h3>
+        <div class="acciones">
+          <button onclick="cargarProductos(false)">Cargar desde API (real)</button>
+          <button class="secondary" onclick="cargarProductos(true)">Simular datos</button>
+        </div>
+        <table id="tablaProductos">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Categoría</th>
+              <th>Precio</th>
+              <th>Stock</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Se rellena por JS -->
+          </tbody>
+        </table>
+        <div class="kpi">
+          <div><strong>Total en stock:</strong> <span id="stockTotal">-</span></div>
+          <div><strong>Precio medio (con stock):</strong> <span id="precioMedio">-</span> €</div>
+          <div><strong>Valor total inventario:</strong> <span id="valorTotal">-</span> €</div>
+        </div>
+        <div id="res2025" class="resultado"></div>
+      </div>
+    </div>
+
+    <div class="code-title">Código JS (explicado con Better Comments)</div>
+    <pre><code>// ! Endpoints posibles (el examen permite cualquiera de ellos)
+const ENDPOINTS = [
+  "https://server1.local/api/products",
+  "https://server2.local/api/products",
+  "https://server3.local/api/products"
+];
+
+// * Datos de simulación para pruebas locales
+const MOCK = {
+  "productos":[
+    {"id":1,"info":{"nombre":"Teclado","categoria":"Periféricos"},"detalles":{"precio":25,"stock":0,"proveedor":{"nombre":"TechImport","pais":"España"},"fechaAlta":"2024-01-10"}},
+    {"id":2,"info":{"nombre":"Ratón","categoria":"Periféricos"},"detalles":{"precio":15,"stock":-1,"proveedor":{"nombre":"LogiCorp","pais":"Francia"},"fechaAlta":"2023-11-15"}},
+    {"id":3,"info":{"nombre":"Monitor","categoria":"Pantallas"},"detalles":{"precio":150,"stock":5,"proveedor":{"nombre":"VisionTech","pais":"Alemania"},"fechaAlta":"2023-12-01"}},
+    {"id":4,"info":{"nombre":"Altavoces","categoria":"Audio"},"detalles":{"precio":40,"stock":2,"proveedor":{"nombre":"SoundPower","pais":"Italia"},"fechaAlta":"2024-02-05"}}
+  ]
+};
+
+// ? Descargar datos usando Promise.any(). Si useMock=true, resolvemos con MOCK rápidamente.
+async function descargarProductos(useMock=false){
+  if(useMock){
+    // * Simulamos latencia y resolvemos con datos de prueba
+    await new Promise(r =&gt; setTimeout(r, 300));
+    return structuredClone(MOCK);
+  }
+  // * Lanzamos fetch en paralelo a todos los endpoints
+  const promesas = ENDPOINTS.map(url =&gt;
+    fetch(url).then(r =&gt; {
+      if(!r.ok) throw new Error("HTTP "+r.status);
+      return r.json();
+    })
+  );
+  // * Nos quedamos con la primera que cumpla (Promise.any)
+  return Promise.any(promesas);
+}
+
+// * Renderizar la tabla según el formato requerido
+function renderTabla(productos){
+  const tbody = document.querySelector("#tablaProductos tbody");
+  tbody.innerHTML = "";
+  productos.forEach(p =&gt; {
+    const id = p.id;
+    const nombre = p.info?.nombre ?? "(sin nombre)";
+    const cat = p.info?.categoria ?? "-";
+    const precio = Number(p.detalles?.precio ?? 0);
+    const stockRaw = Number(p.detalles?.stock ?? 0);
+    const stock = stockRaw &gt; 0 ? stockRaw : 0; // ! Regla: negativos o 0 se muestran como 0
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      &lt;td data-id="${id}"&gt;${nombre}&lt;/td&gt;
+      &lt;td&gt;${cat}&lt;/td&gt;
+      &lt;td&gt;${precio} €&lt;/td&gt;
+      &lt;td&gt;${stock}&lt;/td&gt;
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// * Calcular KPIs con HOFs (map/filter/reduce)
+function calcularKPI(productos){
+  // Productos con stock &gt; 0
+  const conStock = productos.filter(p =&gt; (p.detalles?.stock ?? 0) &gt; 0);
+
+  // Total de unidades en stock
+  const stockTotal = conStock.reduce((acc,p) =&gt; acc + Number(p.detalles.stock), 0);
+
+  // Precio medio de productos con stock
+  const precios = conStock.map(p =&gt; Number(p.detalles.precio));
+  const precioMedio = precios.length ? (precios.reduce((a,b)=&gt;a+b,0) / precios.length) : 0;
+
+  // Valor total inventario (precio * stock)
+  const valorTotal = conStock.reduce((acc,p) =&gt; acc + (Number(p.detalles.precio) * Number(p.detalles.stock)), 0);
+
+  // Pintar
+  document.getElementById("stockTotal").innerText = stockTotal;
+  document.getElementById("precioMedio").innerText = precioMedio.toFixed(2);
+  document.getElementById("valorTotal").innerText = valorTotal.toFixed(2);
+}
+
+// * Flujo principal: descarga -&gt; render -&gt; KPIs
+async function cargarProductos(useMock=false){
+  const out = document.getElementById("res2025");
+  out.innerText = "Cargando...";
+  try{
+    const data = await descargarProductos(useMock);
+    const productos = Array.isArray(data?.productos) ? data.productos : [];
+    renderTabla(productos);
+    calcularKPI(productos);
+    out.innerText = "Datos cargados correctamente ✅";
+  }catch(err){
+    out.innerText = "Error al cargar productos. Revisa la consola.";
+    console.error("Fallo en carga de productos:", err);
+  }
+}</code></pre>
+
+    <hr class="sep"/>
+
+    <h3>🧪 Ahora hazlo tú (práctica guiada)</h3>
+    <ul>
+      <li>// TODO Alumno: Añade una columna “Proveedor (país)” leyendo <code>detalles.proveedor.pais</code>.</li>
+      <li>// TODO Alumno: Implementa ordenación de columnas como en 2023.</li>
+      <li>// TODO Alumno: Añade un filtro por “categoría” (input texto) y vuelve a calcular las KPIs tras filtrar.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h3>📎 Créditos &amp; notas</h3>
+    <p class="muted">
+      Enunciados inspirados en los ejercicios oficiales CyL 2023–2025. Este documento está pensado para uso didáctico:
+      primero entiendes el problema, ves la solución comentada (estilo <em>Better Comments</em>) y después practicas con tareas graduales.
+    </p>
+  </section>
+
+</main>
+
+<script>
+/* ================================================================
+   JS global del documento (carga inicial y pequeñas mejoras UX)
+   ================================================================ */
+// * Auto-scroll suave a secciones si hay hash en URL
+document.addEventListener("click", (e) => {
+  const a = e.target.closest("a[href^='#']");
+  if(!a) return;
+  const id = a.getAttribute("href");
+  const el = document.querySelector(id);
+  if(el){
+    e.preventDefault();
+    el.scrollIntoView({ behavior:"smooth", block:"start" });
+  }
+});
+
+// * Inicializamos feedback 2023
+document.addEventListener("DOMContentLoaded", () => {
+  const msg = document.getElementById("res2023");
+  if(msg) msg.innerText = "Listo. Haz clic en una cabecera (th) para ordenar.";
+});
+</script>
+
+</body>
+</html>
